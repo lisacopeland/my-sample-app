@@ -1,19 +1,29 @@
-import { Injector, NgModule } from '@angular/core';
-import { Router, RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { OktaAuthGuard, OktaAuthStateService, OktaCallbackComponent } from '@okta/okta-angular';
+import { OktaCallbackComponent } from '@okta/okta-angular';
 import { SamplecompComponent } from './samplecomp/samplecomp.component';
-const routes: Routes = [
-  { path: 'login', component: LoginComponent }
-
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: SamplecompComponent,
+  },
+  {
+    path: 'home',
+    component: SamplecompComponent,
+  },
+  {
+    path: 'login/callback',
+    component: OktaCallbackComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  }
 ];
 
-/* export function onAuthRequired(oktaAuth: OktaAuthStateService, injector: Injector): void {
-  const router = injector.get(Router);
-  router.navigate(['/login']);
-} */
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

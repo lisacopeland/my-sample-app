@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { OktaAuthStateService } from '@okta/okta-angular';
+import { OKTA_AUTH } from '@okta/okta-angular';
+import OktaAuth from '@okta/okta-auth-js';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,13 +11,10 @@ export class AppComponent implements OnInit {
   title = 'AngularCalculator';
   isAuthenticated = false;
 
-  constructor(private router: Router, public oktaAuth: OktaAuthStateService) {
-    // subscribe to authentication state changes
+  constructor(private router: Router,  @Inject(OKTA_AUTH) private oktaAuth : OktaAuth) {
 
   }
   ngOnInit() {
-  console.log('hi from the app component');
-  this.router.navigate(['/', 'login']);
   }
 
 

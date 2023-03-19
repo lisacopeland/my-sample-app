@@ -1,5 +1,3 @@
 <p>This is the app component</p>
-<div *ngIf="!(oktaAuth.authState$ | async)?.isAuthenticated">Im not logged in</div>
-<div *ngIf="(oktaAuth.authState$ | async)?.isAuthenticated">Im logged in</div>
 
 <router-outlet></router-outlet>

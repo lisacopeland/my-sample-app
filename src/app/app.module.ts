@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
+import { Router } from '@angular/router';
 import { OktaAuth } from '@okta/okta-auth-js';
+import {
+  OKTA_CONFIG,
+  OktaAuthModule,
+} from '@okta/okta-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
-const oktaAuth = new OktaAuth({
-  issuer: 'https://dev-14748169.okta.com/oauth2/default',
-  clientId: '###',
-  redirectUri: window.location.origin + '/login/callback'
-});
+import config from './app.config';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,17 @@ const oktaAuth = new OktaAuth({
     OktaAuthModule
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: { oktaAuth } }
+    { provide: OKTA_CONFIG,  useFactory: () => {
+        const oktaAuth = new OktaAuth(config.oidc);
+        return {
+          oktaAuth,
+          onAuthRequired: (oktaAuth: OktaAuth, injector: Injector) => {
+            const router = injector.get(Router);
+            // Redirect the user to your custom login page
+            router.navigate(['/login']);
+          }
+        }
+      }}
   ],
   bootstrap: [AppComponent]
 })
